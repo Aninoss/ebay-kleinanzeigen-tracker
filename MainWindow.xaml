@@ -1,0 +1,98 @@
+﻿<Window x:Class="eBayKleinanzeigenTracker.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:WpfApp1"
+    mc:Ignorable="d"
+    Title="eBay Kleinanzeigen Tracker"  Width="800" Height="600"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    Background="{DynamicResource MaterialDesignPaper}"
+    TextElement.FontWeight="Medium"
+    TextElement.FontSize="14"
+    FontFamily="{materialDesign:MaterialDesignFont}" Icon="images/icon.ico"
+    MouseDown="Window_MouseDown" >
+    <Grid Margin="10,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" FontSize="30" Margin="0,0,0,12px">eBay Kleinanzeigen Tracker</Label>
+
+        <Border BorderBrush="Gainsboro" Margin="0,0,0,10" BorderThickness="1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" Background="White">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <DataGrid Name="dgArticles" Grid.Column="0" Grid.Row="0" AutoGenerateColumns="False" ColumnWidth="200" CanUserAddRows="False" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserSortColumns="False" Background="White">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Suchbegriff" Width="1*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding SearchKey}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox PreviewTextInput="TextBox_PreviewKeyTextInput" Text="{Binding SearchKey}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Mindestpreis" Width="110">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding PriceMin}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox PreviewTextInput="TextBox_PreviewNumberTextInput" TextChanged="TextBox_NumberChanged" Text="{Binding PriceMin}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Höchstpreis" Width="110">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding PriceMax}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox PreviewTextInput="TextBox_PreviewNumberTextInput" TextChanged="TextBox_NumberChanged" Text="{Binding PriceMax}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Header="Letzte Aktualisierung" Binding="{Binding LastUpdateString}" IsReadOnly="True" Width="150" />
+
+                        <DataGridTextColumn Header="Ergebnisse" Binding="{Binding Results}" IsReadOnly="True" Width="100" />
+
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Button x:Name="btAdd" Grid.Row="1" Margin="0,10,0,5" Foreground="White" Click="Button_Click">Suchauftrag hinzufügen</Button>
+            </Grid>
+        </Border>
+
+        <CheckBox x:Name="cbStartOnSystemStart" Margin="0,0,20,0" Grid.Column="0" Grid.Row="2" Content="Bei Systemstart öffnen"/>
+        <CheckBox x:Name="cbStartInSystemTray" Margin="0,0,20,0" Grid.Column="1" Grid.Row="2" Content="Versteckt starten"/>
+        <Label Content="Abtastrate:" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center"/>
+        <TextBox x:Name="txPollRate" Grid.Column="3" Grid.Row="2" TextAlignment="Right" Height="26" PreviewTextInput="TextBox_PreviewNumberTextInput" VerticalAlignment="Center"/>
+        <Label Content="Sek." Margin="0,0,20,0" Grid.Column="4" Grid.Row="2" VerticalAlignment="Center"/>
+    </Grid>
+</Window>
