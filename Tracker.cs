@@ -124,8 +124,8 @@ namespace eBayKleinanzeigenTracker
                 int id = Int32.Parse(StringTools.ExtractGroups(code, "data-adid=\"", "\"")[0]);
                 string url = "https://www.ebay-kleinanzeigen.de" + urlTitle[0];
                 string title = urlTitle[1];
-                string desc = StringTools.ExtractGroups(code, "<p>", "</p>")[0];
-                string price = StringTools.ExtractGroups(code, "<strong>", "</strong>")[0];
+                string desc = StringTools.ExtractGroups(code, "<p class=\"aditem-main--middle--description\">", "</p>")[0];
+                string price = StringTools.ExtractGroups(code, "<p class=\"aditem-main--middle--price\">", "</p>")[0];
                 string thumbnail = null;
                 if (code.Contains("data-imgsrc=\"")) thumbnail = StringTools.ExtractGroups(code, "data-imgsrc=\"", "\"")[0]; 
 
