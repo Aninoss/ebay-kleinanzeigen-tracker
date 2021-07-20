@@ -119,15 +119,18 @@ namespace eBayKleinanzeigenTracker
 
             foreach(string code in codeParts)
             {
-                string[] urlTitle = StringTools.ExtractGroups(code, " href=\"", "</a>")[0].Replace("\">", ">").Split('>');
-
                 int id = Int32.Parse(StringTools.ExtractGroups(code, "data-adid=\"", "\"")[0]);
-                string url = "https://www.ebay-kleinanzeigen.de" + urlTitle[0];
-                string title = urlTitle[1];
+                string url = "https://www.ebay-kleinanzeigen.de" + StringTools.ExtractGroups(code, " href=\"", "</a>")[0].Replace("\">", ">").Split('>')[0];
+                string title = StringTools.ExtractGroups(code, "<a class=\"ellipsis\"", "</h2>")[0];
+                title = StringTools.ExtractGroups(title, "\">", "</a>")[0];
                 string desc = StringTools.ExtractGroups(code, "<p class=\"aditem-main--middle--description\">", "</p>")[0];
                 string price = StringTools.ExtractGroups(code, "<p class=\"aditem-main--middle--price\">", "</p>")[0];
                 string thumbnail = null;
-                if (code.Contains("data-imgsrc=\"")) thumbnail = StringTools.ExtractGroups(code, "data-imgsrc=\"", "\"")[0]; 
+                if (code.Contains("data-imgsrc=\"")) thumbnail = StringTools.ExtractGroups(code, "data-imgsrc=\"", "\"")[0];
+                while (price.StartsWith(" ") || price.StartsWith("\n"))
+                {
+                    price = price.Substring(1);
+                }
 
                 Offer offer = new Offer(id, title, desc, url, thumbnail, price);
                 offers.Add(offer);
