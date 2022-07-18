@@ -9,7 +9,7 @@ namespace eBayKleinanzeigenTracker
     {
 
         private string searchKey = "", priceMin = "", priceMax = "", results = "";
-        private List<int> newestIds = new List<int>();
+        private List<long> newestIds = new List<long>();
         private DateTime lastUpdate = DateTime.MinValue;
 
         public SearchRequest() { }
@@ -34,7 +34,7 @@ namespace eBayKleinanzeigenTracker
             set
             {
                 searchKey = value;
-                newestIds = new List<int>();
+                newestIds = new List<long>();
                 ResetDateTime();
                 ResetResults();
                 Save(); 
@@ -58,7 +58,7 @@ namespace eBayKleinanzeigenTracker
                 Save();
             }
         }
-        public List<int> NewestIds
+        public List<long> NewestIds
         {
             get { return newestIds; }
             set
@@ -99,9 +99,9 @@ namespace eBayKleinanzeigenTracker
             return sb.ToString().Substring(1);
         }
 
-        private List<int> ParseNewestIdsString(string str)
+        private List<long> ParseNewestIdsString(string str)
         {
-            List<int> newestIds = new List<int>();
+            List<long> newestIds = new List<long>();
 
             if (str.Length > 0)
             {
@@ -109,7 +109,7 @@ namespace eBayKleinanzeigenTracker
                 {
                     if (StringTools.StringIsInt(id))
                     {
-                        newestIds.Add(Int32.Parse(id));
+                        newestIds.Add(Int64.Parse(id));
                     }
                 }
             }

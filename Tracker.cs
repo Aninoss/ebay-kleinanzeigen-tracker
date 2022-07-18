@@ -76,7 +76,7 @@ namespace eBayKleinanzeigenTracker
 
                 if (offers.Count > 0)
                 {
-                    List<int> newestIds = new List<int>();
+                    List<long> newestIds = new List<long>();
                     foreach (Offer offer in offers)
                     {
                         newestIds.Add(offer.Id);
@@ -121,13 +121,20 @@ namespace eBayKleinanzeigenTracker
             {
                 string[] urlTitle = StringTools.ExtractGroups(code, " href=\"", "</a>")[0].Replace("\">", ">").Split('>');
 
-                int id = Int32.Parse(StringTools.ExtractGroups(code, "data-adid=\"", "\"")[0]);
+                long id = Int64.Parse(StringTools.ExtractGroups(code, "data-adid=\"", "\"")[0]);
                 string url = "https://www.ebay-kleinanzeigen.de" + urlTitle[0];
-                string title = urlTitle[1];
-                string desc = StringTools.ExtractGroups(code, "<p>", "</p>")[0];
-                string price = StringTools.ExtractGroups(code, "<strong>", "</strong>")[0];
+
+                string[] titleGroups = StringTools.ExtractGroups(urlTitle[1], "data-imgtitle=\"", "\"");
+                string title = "";
+                if (titleGroups.Length > 0)
+                {
+                    title = titleGroups[0];
+                }
+
+                string desc = StringTools.ExtractGroups(code, "<p class=\"aditem-main--middle--description\">", "</p>")[0];
+                string price = StringTools.ExtractGroups(code, "<p class=\"aditem-main--middle--price\">", "</p>")[0].Replace("\n", "").Trim();
                 string thumbnail = null;
-                if (code.Contains("data-imgsrc=\"")) thumbnail = StringTools.ExtractGroups(code, "data-imgsrc=\"", "\"")[0]; 
+                if (code.Contains("data-imgsrc=\"")) thumbnail = StringTools.ExtractGroups(code, "data-imgsrc=\"", "\"")[0];
 
                 Offer offer = new Offer(id, title, desc, url, thumbnail, price);
                 offers.Add(offer);

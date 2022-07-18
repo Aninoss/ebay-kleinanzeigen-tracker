@@ -18,6 +18,16 @@ namespace eBayKleinanzeigenTracker
             }
         }
 
+        public static bool StringIsLong(string str)
+        {
+            try {
+                Convert.ToInt64(str);
+                return true;
+            } catch {
+                return false;
+            }
+        }
+
         public static string ExtractIntFromString(string str)
         {
             StringBuilder sb = new StringBuilder();

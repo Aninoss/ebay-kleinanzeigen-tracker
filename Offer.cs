@@ -8,14 +8,14 @@ namespace eBayKleinanzeigenTracker
 {
     class Offer
     {
-        public int Id { get; }
+        public long Id { get; }
         public string Title { get; }
         public string Description { get; }
         public string Url { get; }
         public string Thumbnail { get; }
         public string Price { get; }
 
-        public Offer(int id, string title, string description, string url, string thumbnail, string price)
+        public Offer(long id, string title, string description, string url, string thumbnail, string price)
         {
             this.Id = id;
             this.Title = title;
